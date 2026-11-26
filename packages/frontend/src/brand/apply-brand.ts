@@ -1,4 +1,4 @@
-import { brand, brandAsset, type Look, type Palette } from '@/config';
+import { brand, brandAsset, type BrandConfig, type Look, type Palette } from '@/config';
 
 const KEYS: [keyof Omit<Palette, 'series'>, string][] = [
   ['background', 'background'],
@@ -11,14 +11,14 @@ const KEYS: [keyof Omit<Palette, 'series'>, string][] = [
 ];
 
 /** CSS custom properties for both looks, from customize/brand/brand.json. */
-export function brandCssVariables(): Record<string, string> {
+export function brandCssVariables(b: BrandConfig = brand): Record<string, string> {
   const vars: Record<string, string> = {};
   for (const look of ['hud', 'comic'] as Look[]) {
-    const p = brand.colors[look];
+    const p = b.colors[look];
     for (const [key, name] of KEYS) vars[`--fcc-${look}-${name}`] = p[key];
     for (let i = 0; i < 4; i++) vars[`--fcc-${look}-s${i}`] = p.series[i] ?? p.series[i % p.series.length];
   }
-  const f = brand.fonts ?? {};
+  const f = b.fonts ?? {};
   if (f.heading) vars['--fcc-font-heading'] = `'${f.heading}'`;
   if (f.mono) vars['--fcc-font-mono'] = `'${f.mono}'`;
   if (f.comic) vars['--fcc-font-comic'] = `'${f.comic}'`;
@@ -65,12 +65,26 @@ export function applyBrand() {
     link.href = icon;
   }
 
-  const sheet = brand.fonts?.stylesheet;
-  if (sheet && /^https:\/\//.test(sheet) && !document.querySelector(`link[data-fcc-fonts]`)) {
-    const link = document.createElement('link');
+  loadFontStylesheet(brand.fonts?.stylesheet);
+}
+
+/** Adds (or swaps) the brand's font stylesheet. Only https URLs are used. */
+export function loadFontStylesheet(sheet: string | undefined) {
+  if (!sheet || !/^https:\/\//.test(sheet)) return;
+  let link = document.querySelector<HTMLLinkElement>('link[data-fcc-fonts]');
+  if (link?.href === sheet) return;
+  if (!link) {
+    link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = sheet;
     link.dataset.fccFonts = 'true';
     document.head.appendChild(link);
   }
+  link.href = sheet;
+}
+
+/** Applies colours and fonts from a brand object (used live by the demo Brand Studio). */
+export function applyBrandStyles(b: BrandConfig) {
+  const root = document.documentElement;
+  for (const [k, v] of Object.entries(brandCssVariables(b))) root.style.setProperty(k, v);
+  loadFontStylesheet(b.fonts?.stylesheet);
 }

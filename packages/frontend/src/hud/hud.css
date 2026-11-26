@@ -595,3 +595,19 @@
 @keyframes hud-present { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @media (prefers-reduced-motion: reduce) { .hud-present-fill { animation: none; transform: none; opacity: 0.5; } }
 :root[data-presenting] .hud-shell { padding-bottom: 72px; }
+
+/* ---------- demo Brand Studio ---------- */
+.fcc-studio-open { position: fixed; left: 16px; bottom: 12px; z-index: 81; }
+@media (min-width: 1100px) { .fcc-with-studio { margin-right: 380px; } }
+.hud-studio {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 82; display: flex; flex-direction: column; width: min(380px, 100vw);
+  color: var(--hud-ink); background: var(--hud-bg); border-left: var(--hud-panel-border); box-shadow: -10px 0 30px rgba(0, 0, 0, 0.35);
+}
+.dark .hud-studio { border-left: 1px solid var(--hud-line); }
+.hud-studio-swatch { display: flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 13px; }
+.hud-studio-swatch input[type='color'] { width: 34px; height: 28px; padding: 0; border: 1px solid var(--hud-line); background: none; cursor: pointer; }
+.hud-studio-hex { width: 86px; font-family: var(--hud-mono); }
+.hud-studio-ratio { width: 32px; text-align: right; font-size: 12px; }
+.hud-studio-ratio.is-low { color: var(--hud-hot); font-weight: 700; }
+.hud-studio select.hud-input { appearance: auto; }
+.hud.hud--bare { min-height: 0; background: none; position: static; }
