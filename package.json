@@ -37,7 +37,8 @@
     "doctor": "node scripts/fcc-doctor.mjs",
     "brand": "node scripts/fcc-brand.mjs",
     "check": "npm run typecheck && npm run lint && npm test && npm run doctor",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "setup": "node scripts/fcc-setup.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",

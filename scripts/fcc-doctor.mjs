@@ -8,19 +8,12 @@
  *
  * --live and --discover need `npx rayfin login` first.
  */
-import { spawnSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const custom = join(root, 'customize');
-const src = join(root, 'packages', 'frontend', 'src');
+import { bad, custom, invoke, ok, paint, readEnv, root, src, warn } from './lib/fcc.mjs';
+
 const args = process.argv.slice(2);
-const color = process.stdout.isTTY ? (c, s) => `\x1b[${c}m${s}\x1b[0m` : (_c, s) => s;
-const ok = (s) => console.log(`${color(32, '✔')} ${s}`);
-const warn = (s) => console.log(`${color(33, '!')} ${s}`);
-const bad = (s) => console.log(`${color(31, '✖')} ${s}`);
 
 function readJson(path) {
   try {
@@ -77,8 +70,7 @@ for (const [id, m] of Object.entries(models)) {
 }
 
 // ${VAR} placeholders need values in rayfin/.env
-const envFile = join(root, 'rayfin', '.env');
-const env = existsSync(envFile) ? Object.fromEntries(readFileSync(envFile, 'utf8').split(/\r?\n/).map((l) => l.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)$/)).filter(Boolean).map((m) => [m[1], m[2].trim()])) : {};
+const env = readEnv();
 const needed = [...new Set([...yml.matchAll(/\$\{([A-Z0-9_]+)\}/g)].map((m) => m[1]))];
 const missing = needed.filter((k) => !(env[k] || process.env[k]));
 if (missing.length) {
@@ -94,19 +86,6 @@ if (features?.views?.report) {
   else ok('Power BI embedding is configured');
 }
 
-function invoke(connector, query) {
-  const r = spawnSync('npx', ['rayfin', 'connector', 'invoke', connector, 'executeQuery', '--input', JSON.stringify({ query }), '--json'], {
-    cwd: root, encoding: 'utf8', shell: process.platform === 'win32', env: { ...process.env, ...env },
-  });
-  const out = `${r.stdout ?? ''}${r.stderr ?? ''}`;
-  let parsed;
-  try {
-    parsed = JSON.parse(r.stdout.slice(r.stdout.indexOf('{')));
-  } catch {
-    parsed = undefined;
-  }
-  return { ok: r.status === 0 && !/"error"|"status"\s*:\s*"error"/i.test(r.stdout ?? ''), out, parsed };
-}
 
 if (args.includes('--live')) {
   const b = await import(join(src, 'dax', 'builder.ts'));
@@ -145,4 +124,4 @@ if (di >= 0) {
   }
 }
 
-if (!process.exitCode) console.log(color(32, '\nReady.'));
+if (!process.exitCode) console.log(paint(32, '\nReady.'));
