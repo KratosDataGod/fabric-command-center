@@ -19,7 +19,9 @@
     "savedViews": true,
     "visualBuilder": true,
     "bootSequence": true,
-    "lockBurst": true
+    "lockBurst": true,
+    "periodCompare": true,
+    "presentation": true
   },
   "actions": {
     "csv": true,

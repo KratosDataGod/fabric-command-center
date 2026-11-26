@@ -1,6 +1,7 @@
 import type { SeriesMeta } from '@/dashboard/context';
 import type { Formatters } from '@/data/format';
 import { ratio } from '@/data/format';
+import { change, type Comparison } from '@/data/compare';
 import type { Kpis, SplitRow } from '@/data/rows';
 
 export interface InsightInput {
@@ -11,14 +12,25 @@ export interface InsightInput {
   labels: { time?: string; geo?: string; category?: string };
   series: SeriesMeta[];
   fmt: Formatters;
+  compare?: Comparison;
 }
 
 const top = (rows: SplitRow[]) => [...rows].sort((a, b) => b.total - a.total)[0];
 const up = (v: string | number) => String(v).toUpperCase();
 
 /** Plain-English observations computed only from the query results on screen. Never invented. */
-export function buildInsights({ kpis, time, geo, category, labels, series, fmt }: InsightInput): string[] {
+export function buildInsights({ kpis, time, geo, category, labels, series, fmt, compare }: InsightInput): string[] {
   const out: string[] = [];
+  if (compare) {
+    const total = change(compare.total, compare.previousTotal);
+    if (total !== undefined) {
+      const arrow = (n: number) => `${n >= 0 ? '▲' : '▼'} ${fmt.pct(Math.abs(n))}`;
+      const parts = series.length > 1
+        ? series.map((s, i) => [s.label, change(compare.values[i], compare.previousValues[i])] as const).filter(([, c]) => c !== undefined).map(([l, c]) => `${up(l)} ${arrow(c!)}`)
+        : [];
+      out.push(`${up(compare.current)} VS ${up(compare.previous)}: TOTAL ${arrow(total)}${parts.length ? ` (${parts.join(', ')})` : ''}.`);
+    }
+  }
   if (geo?.length) {
     const sum = geo.reduce((a, r) => a + r.total, 0);
     const t = top(geo)!;

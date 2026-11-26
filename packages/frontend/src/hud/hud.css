@@ -570,3 +570,28 @@
 .hud-palette-empty { padding: 16px; }
 .hud-palette-foot { padding: 8px 14px; border-top: 1px solid var(--hud-line-soft); }
 @media (prefers-reduced-motion: reduce) { .hud-palette { animation: none; } }
+
+/* period-over-period change on readouts */
+.hud-delta { font-family: var(--hud-mono); font-size: 12px; font-weight: 700; color: var(--hud-ink); }
+.hud-delta[data-trend='down'] { color: var(--hud-hot); }
+.hud-delta-vs { font-weight: 400; color: var(--hud-dim); }
+
+/* ---------- presentation mode ---------- */
+:root[data-presenting] .hud-header,
+:root[data-presenting] .hud-toolbar,
+:root[data-presenting] .fcc-demo-banner,
+:root[data-presenting] .hud-panel-actions { display: none; }
+:root[data-presenting] .hud-shell { height: 100vh; }
+.hud-present-bar {
+  position: fixed; left: 50%; bottom: 16px; z-index: 65; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 12px; padding: 8px 10px 8px 14px; width: min(720px, calc(100vw - 32px));
+  color: var(--hud-ink); background: color-mix(in srgb, var(--hud-bg) 88%, transparent); border: var(--hud-panel-border); box-shadow: var(--hud-panel-shadow);
+  backdrop-filter: blur(6px);
+}
+.dark .hud-present-bar { border: 1px solid var(--hud-line); }
+.hud-present-caption { flex: none; font-family: var(--hud-head); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.hud-present-progress { flex: 1; min-width: 40px; height: 3px; background: var(--hud-line-soft); overflow: hidden; }
+.hud-present-fill { display: block; height: 100%; width: 100%; background: var(--hud-hot); transform-origin: left; animation: hud-present 7s linear forwards; }
+@keyframes hud-present { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .hud-present-fill { animation: none; transform: none; opacity: 0.5; } }
+:root[data-presenting] .hud-shell { padding-bottom: 72px; }

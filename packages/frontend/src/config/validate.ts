@@ -86,7 +86,7 @@ export function contrastRatio(a: string, b: string): number {
 /**
  * Readability warnings for a brand (not errors: the app still runs).
  * Text colours and series colours (also used for small labels) need 4.5:1
- * against both backgrounds; "hot" marks selections and needs 3:1.
+ * against both backgrounds, and so does "hot", which marks selections and falling numbers.
  */
 export function brandContrastWarnings(b: BrandConfig): string[] {
   const out: string[] = [];
@@ -100,7 +100,7 @@ export function brandContrastWarnings(b: BrandConfig): string[] {
     };
     check('ink', p.ink, 4.5);
     check('dim', p.dim, 4.5);
-    check('hot', p.hot, 3);
+    check('hot', p.hot, 4.5);
     (p.series ?? []).forEach((c, i) => check(`series[${i}]`, c, 4.5));
   }
   return out;

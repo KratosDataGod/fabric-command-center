@@ -80,3 +80,21 @@ test('dashboard is accessible in both looks', async ({ page }) => {
   await page.waitForTimeout(800); // let the colour transition finish before measuring contrast
   await expectAccessible(page, 'dashboard, light');
 });
+
+test('readouts compare with the previous period', async ({ page }) => {
+  await expect(page.locator('.hud-area-kpis .hud-delta').first()).toContainText(/vs \d{4}/);
+  await page.locator('.hud-area-feed').getByText(/ VS /).first().waitFor();
+});
+
+test('presentation mode tours and exits with Escape', async ({ page }) => {
+  await page.getByRole('button', { name: 'Present' }).click();
+  const bar = page.getByRole('toolbar', { name: 'Presentation' });
+  await expect(bar).toContainText('Overview');
+  await expect(page.locator('.hud-header')).toBeHidden();
+  await bar.getByRole('button', { name: 'Next' }).click();
+  await expect(page.locator('.hud-present-caption')).not.toHaveText('Overview');
+  await page.keyboard.press('Escape');
+  await expect(bar).toBeHidden();
+  await expect(page.locator('.hud-header')).toBeVisible();
+  await expect(page.locator('.hud-tag')).toHaveCount(0);
+});

@@ -1,7 +1,8 @@
-import { Bookmark, Filter, LayoutGrid, Radar, Table2 } from 'lucide-react';
+import { Bookmark, Filter, LayoutGrid, MonitorPlay, Radar, Table2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 import { brand, features, isFeatureOn, isModuleOn, type ModelConfig } from '@/config';
+import { periodComparison } from '@/data/compare';
 import { breakdownQuery, kpiQuery } from '@/dax/builder';
 import { formattersFor } from '@/data/format';
 import { type Kpis, type SplitRow, toKpis, toSplitRows } from '@/data/rows';
@@ -25,6 +26,10 @@ import { Trend } from '@/hud/trend';
 import { activeKeys, clearKey, dimensionsOf, type Dimension, type Filters, toggleValue } from '@/state/filters';
 
 import { DashboardContext, type DashboardContextValue, type SeriesMeta } from './context';
+import { buildTour, stepFilters, type TourStep } from './presentation';
+import { PresentationBar } from './presentation-bar';
+
+const STEP_MS = 7000;
 
 export interface DashboardScreenProps {
   model: ModelConfig;
@@ -33,7 +38,7 @@ export interface DashboardScreenProps {
   title: string;
   mode: 'hud' | 'workbench';
   filters: Filters;
-  onFilters: (filters: Filters) => void;
+  onFilters: (filters: Filters, opts?: { replace?: boolean }) => void;
   onMode: (mode: 'hud' | 'workbench') => void;
   onOpenElsewhere: (profileId: string, itemId: string, filters: Filters) => void;
   dimsFor: (profileId: string, itemId: string) => Dimension[] | undefined;
@@ -88,6 +93,8 @@ export function DashboardScreen(p: DashboardScreenProps) {
   const geos = useMemo(() => toSplitRows(geoQ.data, n), [geoQ.data, n]);
   const cats = useMemo(() => toSplitRows(catQ.data, n), [catQ.data, n]);
 
+  const compare = useMemo(() => (isFeatureOn('periodCompare') ? periodComparison(times, filters.time) : undefined), [times, filters.time]);
+
   const filtersRef = useRef(filters);
   useEffect(() => {
     filtersRef.current = filters;
@@ -119,6 +126,52 @@ export function DashboardScreen(p: DashboardScreenProps) {
     return () => clearTimeout(t);
   }, [glitch]);
 
+  // ---- presentation mode: a timed tour for wall screens and demos ----
+  const [tour, setTour] = useState<{ steps: TourStep[]; index: number; paused: boolean } | null>(null);
+  const onFiltersRef = useRef(p.onFilters);
+  useEffect(() => {
+    onFiltersRef.current = p.onFilters;
+  });
+  const step = tour ? tour.steps[tour.index] : undefined;
+  useEffect(() => {
+    if (!step) return;
+    onFiltersRef.current(stepFilters(step), { replace: true });
+    if (step.value !== undefined && isFeatureOn('lockBurst')) {
+      burstId.current += 1;
+      setBurst({ id: burstId.current, label: (dims.find((d) => d.id === step.dimId)?.label ?? '').toUpperCase(), value: String(step.value).toUpperCase() });
+      setGlitch(true);
+    }
+  }, [step, dims]);
+  useEffect(() => {
+    if (!tour || tour.paused) return;
+    const t = setTimeout(() => setTour((s) => s && { ...s, index: (s.index + 1) % s.steps.length }), STEP_MS);
+    return () => clearTimeout(t);
+  }, [tour]);
+  const stopPresenting = useCallback(() => {
+    setTour(null);
+    delete document.documentElement.dataset.presenting;
+    if (document.fullscreenElement) void document.exitFullscreen().catch(() => undefined);
+    onFiltersRef.current({}, { replace: true });
+  }, []);
+  useEffect(() => {
+    if (!tour) return;
+    const onFs = () => {
+      if (!document.fullscreenElement) stopPresenting();
+    };
+    document.addEventListener('fullscreenchange', onFs);
+    return () => document.removeEventListener('fullscreenchange', onFs);
+  }, [tour, stopPresenting]);
+  useEffect(() => () => void delete document.documentElement.dataset.presenting, []);
+  const startPresenting = () => {
+    const steps = buildTour(dims, { geo: geos, category: cats, time: times });
+    if (steps.length < 2) return;
+    document.documentElement.dataset.presenting = 'true';
+    setDrawer(null);
+    setTour({ steps, index: 0, paused: false });
+    // Full screen where the host allows it (it may not inside an iframe); the tour runs either way.
+    document.documentElement.requestFullscreen?.().catch(() => undefined);
+  };
+
   const workbenchOn = features.views?.workbench !== false && isFeatureOn('visualBuilder');
   const drill = isFeatureOn('drillThrough') && (model.detail?.columns?.length ?? 0) > 0;
   const openDetail = drill ? () => setDrawer('detail') : undefined;
@@ -127,8 +180,8 @@ export function DashboardScreen(p: DashboardScreenProps) {
   const active = activeKeys(filters);
   const busy = kpi.loading || timeQ.loading || geoQ.loading || catQ.loading;
   const insights = useMemo(
-    () => buildInsights({ kpis, time: times, geo: geos, category: cats, labels: { time: time?.label, geo: geo?.label, category: category?.label }, series, fmt }),
-    [kpis, times, geos, cats, time, geo, category, series, fmt]
+    () => buildInsights({ kpis, time: times, geo: geos, category: cats, labels: { time: time?.label, geo: geo?.label, category: category?.label }, series, fmt, compare }),
+    [kpis, times, geos, cats, time, geo, category, series, fmt, compare]
   );
   const legend = series.map((s) => <span key={s.label} style={{ color: s.color, marginRight: 10 }}>━ {s.short}</span>);
 
@@ -173,6 +226,11 @@ export function DashboardScreen(p: DashboardScreenProps) {
               <button type="button" className="hud-btn" onClick={() => setDrawer('filters')}><Filter className="icon-size-200" aria-hidden /> Filters</button>
             ) : null}
             {drill ? <button type="button" className="hud-btn" onClick={() => setDrawer('detail')}><Table2 className="icon-size-200" aria-hidden /> Detail</button> : null}
+            {isFeatureOn('presentation') && p.mode === 'hud' ? (
+              <button type="button" className="hud-btn" onClick={startPresenting} disabled={!geos && !cats}>
+                <MonitorPlay className="icon-size-200" aria-hidden /> Present
+              </button>
+            ) : null}
             {isFeatureOn('savedViews') ? (
               <button type="button" className="hud-btn" onClick={() => setDrawer('views')}><Bookmark className="icon-size-200" aria-hidden /> Views</button>
             ) : null}
@@ -191,7 +249,7 @@ export function DashboardScreen(p: DashboardScreenProps) {
             {isModuleOn('readouts') ? (
               <Panel code="02" title="Readouts" className="hud-area-kpis"
                 data={kpis && { title: 'Readouts', header: ['Series', 'Value'], rows: [...series.map((s, i) => [s.label, kpis.values[i]]), ['Total', kpis.total]], summary: `Total ${fmt.full(kpis.total)}: ${series.map((s, i) => `${s.label} ${fmt.value(kpis.values[i] ?? 0)}`).join(', ')}.` }}>
-                {panelState(kpi, Boolean(kpis), false) ?? <Readouts kpis={kpis!} />}
+                {panelState(kpi, Boolean(kpis), false) ?? <Readouts kpis={kpis!} compare={compare} />}
               </Panel>
             ) : null}
             {geo && isModuleOn('globe') ? (
@@ -224,6 +282,12 @@ export function DashboardScreen(p: DashboardScreenProps) {
         )}
       </div>
 
+      {tour && step ? (
+        <PresentationBar step={step} index={tour.index} count={tour.steps.length} paused={tour.paused}
+          onPause={() => setTour((s) => s && { ...s, paused: !s.paused })}
+          onNext={() => setTour((s) => s && { ...s, index: (s.index + 1) % s.steps.length })}
+          onExit={stopPresenting} />
+      ) : null}
       {drawer === 'filters' ? <FiltersPane onClose={() => setDrawer(null)} onChange={p.onFilters} /> : null}
       {drawer === 'detail' ? <DetailDrawer onClose={() => setDrawer(null)} /> : null}
       {drawer === 'views' ? (

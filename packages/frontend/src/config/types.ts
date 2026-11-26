@@ -94,7 +94,7 @@ export type ModuleId = 'core' | 'readouts' | 'globe' | 'targetList' | 'category'
 export interface FeaturesConfig {
   modules?: Partial<Record<ModuleId, boolean>>;
   views?: { workbench?: boolean; report?: boolean };
-  features?: Partial<Record<'filtersPane' | 'drillThrough' | 'savedViews' | 'visualBuilder' | 'bootSequence' | 'lockBurst', boolean>>;
+  features?: Partial<Record<'filtersPane' | 'drillThrough' | 'savedViews' | 'visualBuilder' | 'bootSequence' | 'lockBurst' | 'periodCompare' | 'presentation', boolean>>;
   actions?: Partial<Record<'csv' | 'png' | 'copy' | 'teams' | 'email', boolean>>;
   shareUrl?: string;
 }

@@ -64,6 +64,14 @@
         },
         "lockBurst": {
           "type": "boolean"
+        },
+        "periodCompare": {
+          "type": "boolean",
+          "description": "Readouts and insights show the change against the previous period (for example, the previous year)."
+        },
+        "presentation": {
+          "type": "boolean",
+          "description": "Present button: a full-screen tour that locks onto the top members one after another, for wall screens and demos."
         }
       }
     },

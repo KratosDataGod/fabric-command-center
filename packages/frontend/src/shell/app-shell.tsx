@@ -170,7 +170,7 @@ function Shell() {
     [navigate],
   );
   const setFilters = useCallback(
-    (filters: Filters) => go({ ...route, filters }),
+    (filters: Filters, opts?: { replace?: boolean }) => go({ ...route, filters }, opts?.replace),
     [go, route],
   );
 

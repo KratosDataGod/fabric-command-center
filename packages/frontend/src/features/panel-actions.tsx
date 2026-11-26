@@ -49,7 +49,7 @@ export function PanelActions({ data, target, onDetail }: { data: PanelData | und
 
   if (!items.length) return null;
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="hud-panel-actions relative">
       <button type="button" className="hud-icon-btn" aria-label="Panel actions" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
         <MoreHorizontal className="icon-size-200" aria-hidden />
       </button>
