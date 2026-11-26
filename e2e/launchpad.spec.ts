@@ -34,5 +34,6 @@ test('remembers the last profile', async ({ page }) => {
 test('launchpad is accessible in both looks', async ({ page }) => {
   await expectAccessible(page, 'launchpad, dark');
   await page.locator('.hud-status').getByRole('button', { name: /Comic mode/ }).click();
+  await page.waitForTimeout(800); // let the colour transition finish before measuring contrast
   await expectAccessible(page, 'launchpad, light');
 });

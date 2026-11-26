@@ -77,5 +77,6 @@ test('dashboard is accessible in both looks', async ({ page }) => {
   await expect(page.locator('.hud-skel')).toHaveCount(0);
   await expectAccessible(page, 'dashboard, dark');
   await page.locator('.hud-status').getByRole('button', { name: /Comic mode/ }).click();
+  await page.waitForTimeout(800); // let the colour transition finish before measuring contrast
   await expectAccessible(page, 'dashboard, light');
 });
