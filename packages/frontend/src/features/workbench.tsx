@@ -96,7 +96,7 @@ function Chart({ rows, kind, dimId, format }: { rows: { key: string | number; va
                 const y = 2 + i * rowH;
                 const on = isSelected(filters, dimId, r.key);
                 return (
-                  <g key={String(r.key)} className="hud-hit" role="button" tabIndex={0} aria-label={`${r.key}: ${format(r.value)}`} onClick={(e) => pick(r.key, e)} opacity={any && !on ? 0.35 : 1}>
+                  <g key={String(r.key)} className="hud-hit" role="button" tabIndex={0} aria-pressed={on} aria-label={`${r.key}: ${format(r.value)}`} onClick={(e) => pick(r.key, e)} onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), pick(r.key, e))} opacity={any && !on ? 0.35 : 1}>
                     <rect x={0} y={y} width={width} height={rowH} fill="transparent" />
                     <text x={label - 8} y={y + rowH * 0.66} textAnchor="end" fill="var(--hud-ink)" style={{ fontFamily: 'var(--hud-head)', fontSize: 12 }}>{String(r.key).slice(0, 16)}</text>
                     <rect x={label} y={y + rowH * 0.18} width={w} height={rowH * 0.64} fill={on ? 'var(--hud-hot)' : 'var(--hud-s1)'} style={{ filter: 'drop-shadow(0 0 4px var(--hud-s1))' }} />
@@ -121,7 +121,7 @@ function Chart({ rows, kind, dimId, format }: { rows: { key: string | number; va
                       const on = isSelected(filters, dimId, r.key);
                       const [px, py] = pts[i]!;
                       return (
-                        <g key={String(r.key)} className="hud-hit" role="button" tabIndex={0} aria-label={`${r.key}: ${format(r.value)}`} onClick={(e) => pick(r.key, e)} opacity={any && !on ? 0.35 : 1}>
+                        <g key={String(r.key)} className="hud-hit" role="button" tabIndex={0} aria-pressed={on} aria-label={`${r.key}: ${format(r.value)}`} onClick={(e) => pick(r.key, e)} onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), pick(r.key, e))} opacity={any && !on ? 0.35 : 1}>
                           <rect x={pad.l + step * i} y={pad.t} width={step} height={h + pad.b} fill="transparent" />
                           {kind === 'column' ? (
                             <rect x={px - step * 0.32} y={py} width={step * 0.64} height={pad.t + h - py} fill={on ? 'var(--hud-hot)' : 'var(--hud-s0)'} />

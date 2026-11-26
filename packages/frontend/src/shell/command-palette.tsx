@@ -2,6 +2,7 @@ import { Bookmark, CornerDownLeft, FileBarChart2, LayoutDashboard, Link2, Search
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 
 import { profiles } from '@/config';
+import { useFocusTrap } from '@/hooks/use-focus-trap';
 import { loadViews, type SavedView } from '@/state/views';
 
 import { ProfileGlyph } from './icons';
@@ -32,15 +33,11 @@ export function CommandPalette(p: {
   const [active, setActive] = useState(0);
   const input = useRef<HTMLInputElement>(null);
   const list = useRef<HTMLUListElement>(null);
-  const restore = useRef<Element | null>(null);
+  const box = useRef<HTMLDivElement>(null);
   const personal = usePersonal();
   const views = useMemo(() => loadViews(), []);
 
-  useEffect(() => {
-    restore.current = document.activeElement;
-    input.current?.focus();
-    return () => (restore.current as HTMLElement | null)?.focus?.();
-  }, []);
+  useFocusTrap(box, p.onClose, input);
 
   const entries = useMemo<Entry[]>(() => {
     const out: Entry[] = [];
@@ -94,7 +91,6 @@ export function CommandPalette(p: {
     else if (e.key === 'Home') setActive(0);
     else if (e.key === 'End') setActive(flat.length - 1);
     else if (e.key === 'Enter') flat[current]?.run();
-    else if (e.key === 'Escape') p.onClose();
     else return;
     e.preventDefault();
   };
@@ -102,7 +98,7 @@ export function CommandPalette(p: {
   const offsets = groups.map((_, gi) => groups.slice(0, gi).reduce((a, g) => a + g.items.length, 0));
   return (
     <div className="hud-palette-backdrop" onMouseDown={(e) => e.target === e.currentTarget && p.onClose()}>
-      <div className="hud-palette" role="dialog" aria-modal="true" aria-label="Search everything" onKeyDown={onKey}>
+      <div ref={box} className="hud-palette" role="dialog" aria-modal="true" aria-label="Search everything" onKeyDown={onKey}>
         <div className="hud-palette-search">
           <Search className="icon-size-300" aria-hidden />
           <input

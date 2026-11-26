@@ -1,19 +1,12 @@
 import { X } from 'lucide-react';
-import { useEffect, useRef, type ReactNode } from 'react';
+import { type ReactNode, useRef } from 'react';
+
+import { useFocusTrap } from '@/hooks/use-focus-trap';
 
 /** Slide-over panel used by the filters pane, drill-through and saved views. */
 export function Drawer({ title, onClose, wide, children }: { title: string; onClose: () => void; wide?: boolean; children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const prev = document.activeElement as HTMLElement | null;
-    ref.current?.focus();
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      prev?.focus?.();
-    };
-  }, [onClose]);
+  useFocusTrap(ref, onClose);
   return (
     <div className="hud-drawer-backdrop" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-label={title} className={`hud-drawer ${wide ? 'hud-drawer--wide' : ''}`}>

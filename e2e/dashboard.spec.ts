@@ -98,3 +98,16 @@ test('presentation mode tours and exits with Escape', async ({ page }) => {
   await expect(page.locator('.hud-header')).toBeVisible();
   await expect(page.locator('.hud-tag')).toHaveCount(0);
 });
+
+test('drawers keep keyboard focus while filters change', async ({ page }) => {
+  await page.getByRole('button', { name: 'Filters' }).click();
+  const box = page.getByRole('dialog').getByRole('checkbox').first();
+  await box.focus();
+  await page.keyboard.press('Space');
+  await expect(page.locator('.hud-tag')).toHaveCount(1);
+  await expect(box).toBeFocused();
+  for (let i = 0; i < 40; i++) await page.keyboard.press('Tab');
+  expect(await page.evaluate(() => Boolean(document.activeElement?.closest('[role=dialog]')))).toBe(true);
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: 'Filters' })).toBeFocused();
+});
