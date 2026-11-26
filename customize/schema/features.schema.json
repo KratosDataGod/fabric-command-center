@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Fabric Command Center features",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "modules": {
+      "type": "object",
+      "properties": {
+        "core": {
+          "type": "boolean"
+        },
+        "readouts": {
+          "type": "boolean"
+        },
+        "globe": {
+          "type": "boolean"
+        },
+        "targetList": {
+          "type": "boolean"
+        },
+        "category": {
+          "type": "boolean"
+        },
+        "trend": {
+          "type": "boolean"
+        },
+        "insights": {
+          "type": "boolean"
+        }
+      }
+    },
+    "views": {
+      "type": "object",
+      "properties": {
+        "workbench": {
+          "type": "boolean"
+        },
+        "report": {
+          "type": "boolean",
+          "description": "Embed Power BI report tiles inside the app. Needs customize/powerbi.local.json, see docs/power-bi-embed.md. Off: report tiles open in Fabric."
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "properties": {
+        "filtersPane": {
+          "type": "boolean"
+        },
+        "drillThrough": {
+          "type": "boolean"
+        },
+        "savedViews": {
+          "type": "boolean"
+        },
+        "visualBuilder": {
+          "type": "boolean"
+        },
+        "bootSequence": {
+          "type": "boolean"
+        },
+        "lockBurst": {
+          "type": "boolean"
+        }
+      }
+    },
+    "actions": {
+      "type": "object",
+      "properties": {
+        "csv": {
+          "type": "boolean"
+        },
+        "png": {
+          "type": "boolean"
+        },
+        "copy": {
+          "type": "boolean"
+        },
+        "teams": {
+          "type": "boolean"
+        },
+        "email": {
+          "type": "boolean"
+        }
+      }
+    },
+    "shareUrl": {
+      "type": "string",
+      "description": "Link to the app in Fabric, included when sharing to Teams or email"
+    }
+  }
+}

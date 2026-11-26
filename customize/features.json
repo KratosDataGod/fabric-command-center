@@ -1,0 +1,32 @@
+{
+  "$schema": "./schema/features.schema.json",
+  "modules": {
+    "core": true,
+    "readouts": true,
+    "globe": true,
+    "targetList": true,
+    "category": true,
+    "trend": true,
+    "insights": true
+  },
+  "views": {
+    "workbench": true,
+    "report": false
+  },
+  "features": {
+    "filtersPane": true,
+    "drillThrough": true,
+    "savedViews": true,
+    "visualBuilder": true,
+    "bootSequence": true,
+    "lockBurst": true
+  },
+  "actions": {
+    "csv": true,
+    "png": true,
+    "copy": true,
+    "teams": true,
+    "email": true
+  },
+  "shareUrl": ""
+}

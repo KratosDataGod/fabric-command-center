@@ -1,0 +1,68 @@
+{
+  "$schema": "../schema/model.schema.json",
+  "id": "sales",
+  "connector": "salesmodel",
+  "modelName": "AdventureWorks sales",
+  "locale": "en-US",
+  "currency": "USD",
+  "valueFormat": "currency",
+  "series": [
+    {
+      "id": "internet",
+      "label": "Internet",
+      "short": "WEB",
+      "value": "SUM ( 'FactInternetSales'[SalesAmount] )",
+      "units": "SUM ( 'FactInternetSales'[OrderQuantity] )"
+    },
+    {
+      "id": "reseller",
+      "label": "Reseller",
+      "short": "RESELL",
+      "value": "SUM ( 'FactResellerSales'[SalesAmount] )",
+      "units": "SUM ( 'FactResellerSales'[OrderQuantity] )"
+    }
+  ],
+  "dimensions": {
+    "time": {
+      "label": "Year",
+      "column": "'DimDate'[CalendarYear]"
+    },
+    "geo": {
+      "label": "Country",
+      "column": "'DimSalesTerritory'[SalesTerritoryCountry]"
+    },
+    "category": {
+      "label": "Color",
+      "column": "'DimProduct'[Color]",
+      "colorNames": true
+    }
+  },
+  "extraFilters": [
+    {
+      "id": "region",
+      "label": "Region",
+      "column": "'DimSalesTerritory'[SalesTerritoryRegion]"
+    }
+  ],
+  "detail": {
+    "columns": [
+      {
+        "label": "Product",
+        "column": "'DimProduct'[EnglishProductName]"
+      },
+      {
+        "label": "Color",
+        "column": "'DimProduct'[Color]"
+      }
+    ],
+    "maxRows": 500
+  },
+  "extraMeasures": [
+    {
+      "id": "units",
+      "label": "Units",
+      "expression": "SUM ( 'FactInternetSales'[OrderQuantity] ) + SUM ( 'FactResellerSales'[OrderQuantity] )",
+      "format": "number"
+    }
+  ]
+}

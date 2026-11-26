@@ -1,0 +1,72 @@
+{
+  "name": "fabric-command-center",
+  "description": "Fabric Command Center: a brandable, config-driven Fabric App that gives every team a launchpad of live dashboards, Power BI reports and links on top of their own semantic models.",
+  "license": "MIT",
+  "author": "KratosBI",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "template": {
+    "name": "universal-app",
+    "displayName": "\u2728 Use default template",
+    "description": "A lean React + Vite starter that grows into anything. A built-in capability router reads what you ask for, then enables the right Rayfin services, installs the right modules, and activates the right skills \u2014 CRUD apps, functions, charts, or Fabric analytics dashboards.",
+    "hidden": true
+  },
+  "scripts": {
+    "dev": "rayfin dev",
+    "dev:frontend": "npm run -w @rayfin-app/frontend dev",
+    "demo": "npm run -w @rayfin-app/frontend demo",
+    "build": "npm run -w @rayfin-app/data build && npm run -w @rayfin-app/frontend build",
+    "build:fabric": "npm run -w @rayfin-app/data build && npm run -w @rayfin-app/frontend build:fabric",
+    "lint": "npm run -w @rayfin-app/frontend lint",
+    "preview": "npm run -w @rayfin-app/frontend preview",
+    "test": "npm run -w @rayfin-app/frontend test",
+    "test:watch": "npm run -w @rayfin-app/frontend test:watch",
+    "typecheck": "tsc -b",
+    "pack:add": "node scripts/scaffold.mjs",
+    "test:template": "node scripts/run-template-tests.mjs",
+    "rayfin:up": "rayfin up",
+    "schema:sql": "fabric-app-semantic-model-tools query-schema",
+    "schema:refresh": "fabric-app-semantic-model-tools query-schema --refresh",
+    "doctor": "node scripts/fcc-doctor.mjs",
+    "brand": "node scripts/fcc-brand.mjs",
+    "check": "npm run typecheck && npm run lint && npm test && npm run doctor"
+  },
+  "devDependencies": {
+    "@microsoft/rayfin-cli": "^2.0.1",
+    "@microsoft/rayfin-guide": "^2.0.1",
+    "typescript": "~6.0.2"
+  },
+  "rayfinScriptBases": {
+    "build": "npm run -w @rayfin-app/data build && npm run -w @rayfin-app/frontend build",
+    "build:fabric": "npm run -w @rayfin-app/data build && npm run -w @rayfin-app/frontend build:fabric",
+    "typecheck": "tsc -b"
+  },
+  "rayfinPacks": [
+    "analytics",
+    "connectors"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KratosDataGod/fabric-command-center.git"
+  },
+  "homepage": "https://github.com/KratosDataGod/fabric-command-center#readme",
+  "bugs": {
+    "url": "https://github.com/KratosDataGod/fabric-command-center/issues"
+  },
+  "keywords": [
+    "microsoft-fabric",
+    "power-bi",
+    "fabric-apps",
+    "rayfin",
+    "dashboard",
+    "semantic-model",
+    "dax"
+  ]
+}

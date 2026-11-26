@@ -1,0 +1,131 @@
+{
+  "$schema": "../schema/profile.schema.json",
+  "id": "admin",
+  "name": "Fabric Admin",
+  "icon": "shield",
+  "order": 20,
+  "description": "Tenant governance, capacity health and usage monitoring in one place.",
+  "sections": [
+    {
+      "title": "Built into Fabric",
+      "description": "Ready-made admin content. The Admin monitoring workspace installs the first time a Fabric administrator opens it.",
+      "items": [
+        {
+          "type": "link",
+          "id": "admin-portal",
+          "title": "Admin portal",
+          "description": "Tenant settings, capacities, usage and audit.",
+          "url": "https://app.fabric.microsoft.com/admin-portal",
+          "source": "Fabric"
+        },
+        {
+          "type": "report",
+          "id": "govern-report",
+          "title": "Govern report",
+          "description": "Inventory, capacities, domains, workspaces, sharing, endorsement and sensitivity-label coverage.",
+          "source": "Admin monitoring workspace",
+          "workspaceId": "",
+          "reportId": ""
+        },
+        {
+          "type": "report",
+          "id": "feature-usage",
+          "title": "Feature usage and adoption",
+          "description": "How Fabric features are used across the tenant over the last 30 days (preview).",
+          "source": "Admin monitoring workspace",
+          "workspaceId": "",
+          "reportId": ""
+        },
+        {
+          "type": "report",
+          "id": "capacity-metrics",
+          "title": "Capacity Metrics",
+          "description": "Capacity utilization, throttling and the items using the most capacity units.",
+          "source": "Microsoft Fabric Capacity Metrics app",
+          "workspaceId": "",
+          "reportId": ""
+        }
+      ]
+    },
+    {
+      "title": "FUAM",
+      "description": "Fabric Unified Admin Monitoring, the open-source solution accelerator in the Microsoft fabric-toolbox. Deploy it once, then add each report's IDs.",
+      "items": [
+        {
+          "type": "report",
+          "id": "fuam-core",
+          "title": "FUAM Core report",
+          "description": "Activities, workspaces, capacities, capacity metrics and tenant settings in one report.",
+          "source": "FUAM",
+          "workspaceId": "",
+          "reportId": ""
+        },
+        {
+          "type": "report",
+          "id": "fuam-items",
+          "title": "FUAM Item Analyzer",
+          "description": "Deep dive into individual items.",
+          "source": "FUAM",
+          "workspaceId": "",
+          "reportId": ""
+        },
+        {
+          "type": "report",
+          "id": "fuam-sql",
+          "title": "FUAM SQL Endpoint Analyzer",
+          "description": "SQL analytics endpoint analysis.",
+          "source": "FUAM",
+          "workspaceId": "",
+          "reportId": ""
+        },
+        {
+          "type": "report",
+          "id": "fuam-semantic",
+          "title": "FUAM Semantic Model Meta Data Analyzer",
+          "description": "Semantic model metadata analysis.",
+          "source": "FUAM",
+          "workspaceId": "",
+          "reportId": ""
+        },
+        {
+          "type": "report",
+          "id": "fuam-gateway",
+          "title": "FUAM Gateway Monitoring",
+          "description": "Gateway monitoring from gateway log files.",
+          "source": "FUAM",
+          "workspaceId": "",
+          "reportId": ""
+        }
+      ]
+    },
+    {
+      "title": "Learn",
+      "items": [
+        {
+          "type": "link",
+          "id": "fuam-repo",
+          "title": "Deploy FUAM",
+          "description": "FUAM on GitHub (microsoft/fabric-toolbox).",
+          "url": "https://github.com/microsoft/fabric-toolbox/tree/main/monitoring/fabric-unified-admin-monitoring",
+          "source": "GitHub"
+        },
+        {
+          "type": "link",
+          "id": "admin-monitoring-docs",
+          "title": "Admin monitoring workspace",
+          "description": "What it contains and how to share it with non-admins.",
+          "url": "https://learn.microsoft.com/fabric/admin/monitoring-workspace",
+          "source": "Microsoft Learn"
+        },
+        {
+          "type": "link",
+          "id": "capacity-metrics-docs",
+          "title": "Install Capacity Metrics",
+          "description": "Install and configure the Capacity Metrics app.",
+          "url": "https://learn.microsoft.com/fabric/enterprise/metrics-app-install",
+          "source": "Microsoft Learn"
+        }
+      ]
+    }
+  ]
+}

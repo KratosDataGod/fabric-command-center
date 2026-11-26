@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/profile.schema.json",
+  "id": "operations",
+  "name": "Operations",
+  "icon": "cog",
+  "order": 30,
+  "description": "Starter profile: replace these placeholders with your operations content.",
+  "sections": [
+    {
+      "title": "Starter tiles",
+      "items": [
+        {
+          "type": "report",
+          "id": "ops-report-1",
+          "title": "Your operations report",
+          "description": "Placeholder. Add the workspace and report IDs of a real report.",
+          "source": "Power BI",
+          "workspaceId": "",
+          "reportId": ""
+        },
+        {
+          "type": "link",
+          "id": "ops-how-to",
+          "title": "How to build this profile",
+          "description": "Add tiles, dashboards and reports for your team.",
+          "url": "https://github.com/KratosDataGod/fabric-command-center/blob/main/docs/profiles.md",
+          "source": "Docs"
+        }
+      ]
+    }
+  ]
+}

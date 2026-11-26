@@ -1,0 +1,31 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "../..",
+    "outDir": "./dist",
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "ESNext.Decorators"],
+    "useDefineForClassFields": true,
+    "allowImportingTsExtensions": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@customize/*": ["../../customize/*"]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "src/**/*.json",
+    "../../customize/**/*.json",
+    "../../rayfin/connectors/**/*.ts",
+    "../auth/*.d.ts"
+  ],
+  "exclude": ["dist", "node_modules"],
+  "references": [
+    {
+      "path": "../shared"
+    }
+  ]
+}

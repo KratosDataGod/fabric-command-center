@@ -1,0 +1,37 @@
+{
+  "$schema": "../schema/profile.schema.json",
+  "id": "sales",
+  "name": "Sales",
+  "icon": "chart",
+  "order": 10,
+  "description": "Revenue by channel, market and product, live from the sales semantic model.",
+  "sections": [
+    {
+      "title": "Live dashboards",
+      "items": [
+        {
+          "type": "dashboard",
+          "id": "sales-hud",
+          "title": "Sales command center",
+          "description": "Channels, markets, product colours and trend, cross-filtered.",
+          "model": "sales",
+          "source": "Semantic model"
+        }
+      ]
+    },
+    {
+      "title": "Reports",
+      "items": [
+        {
+          "type": "report",
+          "id": "sales-report",
+          "title": "Sales report",
+          "description": "Your main Power BI sales report. Add its workspace and report IDs.",
+          "source": "Power BI",
+          "workspaceId": "",
+          "reportId": ""
+        }
+      ]
+    }
+  ]
+}

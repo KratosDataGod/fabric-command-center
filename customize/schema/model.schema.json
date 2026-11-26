@@ -1,0 +1,246 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Fabric Command Center model mapping",
+  "type": "object",
+  "required": [
+    "id",
+    "connector",
+    "series",
+    "dimensions"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Must match the file name"
+    },
+    "connector": {
+      "type": "string",
+      "description": "Connector name in rayfin/rayfin.yml"
+    },
+    "modelName": {
+      "type": "string",
+      "description": "Shown in the header subtitle"
+    },
+    "locale": {
+      "type": "string",
+      "description": "BCP 47 locale for number formatting, e.g. en-US, de-DE"
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 code, e.g. USD, EUR"
+    },
+    "valueFormat": {
+      "enum": [
+        "currency",
+        "number",
+        "percent"
+      ]
+    },
+    "series": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "short": {
+            "type": "string",
+            "description": "Short label for tight spots (max ~8 chars)"
+          },
+          "value": {
+            "type": "string",
+            "description": "DAX scalar expression, e.g. [Total Sales] or SUM('Sales'[Amount])"
+          },
+          "units": {
+            "type": "string",
+            "description": "Optional DAX expression for units/quantity"
+          }
+        }
+      }
+    },
+    "dimensions": {
+      "type": "object",
+      "required": [
+        "time"
+      ],
+      "properties": {
+        "time": {
+          "type": "object",
+          "required": [
+            "label",
+            "column"
+          ],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "column": {
+              "type": "string",
+              "pattern": "^('[^']+'|[A-Za-z_][\\w ]*)\\[[^\\]]+\\]$",
+              "description": "DAX column reference, e.g. 'DimDate'[CalendarYear]"
+            }
+          },
+          "description": "Year (or other period) column for the trend"
+        },
+        "geo": {
+          "type": "object",
+          "required": [
+            "label",
+            "column"
+          ],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "column": {
+              "type": "string",
+              "pattern": "^('[^']+'|[A-Za-z_][\\w ]*)\\[[^\\]]+\\]$",
+              "description": "DAX column reference, e.g. 'DimDate'[CalendarYear]"
+            },
+            "aliases": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Map your country names to world-atlas names"
+            },
+            "coordinates": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "description": "Override [longitude, latitude] per member"
+            }
+          },
+          "description": "Country column for the globe; omit to hide the globe"
+        },
+        "category": {
+          "type": "object",
+          "required": [
+            "label",
+            "column"
+          ],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "column": {
+              "type": "string",
+              "pattern": "^('[^']+'|[A-Za-z_][\\w ]*)\\[[^\\]]+\\]$",
+              "description": "DAX column reference, e.g. 'DimDate'[CalendarYear]"
+            },
+            "colorNames": {
+              "type": "boolean",
+              "description": "Members are colour names: draw bubbles in those colours"
+            }
+          }
+        }
+      }
+    },
+    "extraFilters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "column"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "column": {
+            "type": "string",
+            "pattern": "^('[^']+'|[A-Za-z_][\\w ]*)\\[[^\\]]+\\]$",
+            "description": "DAX column reference, e.g. 'DimDate'[CalendarYear]"
+          }
+        }
+      }
+    },
+    "detail": {
+      "type": "object",
+      "properties": {
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "label",
+              "column"
+            ],
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "column": {
+                "type": "string",
+                "pattern": "^('[^']+'|[A-Za-z_][\\w ]*)\\[[^\\]]+\\]$",
+                "description": "DAX column reference, e.g. 'DimDate'[CalendarYear]"
+              }
+            }
+          }
+        },
+        "maxRows": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 5000
+        }
+      }
+    },
+    "extraMeasures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "expression"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "expression": {
+            "type": "string"
+          },
+          "format": {
+            "enum": [
+              "currency",
+              "number",
+              "percent"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Fabric Command Center brand",
+  "type": "object",
+  "required": [
+    "name",
+    "logo",
+    "mark",
+    "colors"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "description": "Product name shown in the header and tab title"
+    },
+    "titleAccent": {
+      "type": "string",
+      "description": "Accent text after the name, e.g. '// Sales Intel'"
+    },
+    "tagline": {
+      "type": "string"
+    },
+    "logo": {
+      "type": "string",
+      "description": "File in customize/brand/ used in exports and the boot screen"
+    },
+    "mark": {
+      "type": "string",
+      "description": "Square file in customize/brand/ used in the header"
+    },
+    "favicon": {
+      "type": "string"
+    },
+    "defaultLook": {
+      "enum": [
+        "hud",
+        "comic"
+      ]
+    },
+    "allowLookToggle": {
+      "type": "boolean"
+    },
+    "fonts": {
+      "type": "object",
+      "properties": {
+        "heading": {
+          "type": "string"
+        },
+        "mono": {
+          "type": "string"
+        },
+        "comic": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "stylesheet": {
+          "type": "string",
+          "description": "CSS URL that loads the fonts (e.g. Google Fonts). Empty to use local fonts."
+        }
+      }
+    },
+    "colors": {
+      "type": "object",
+      "required": [
+        "hud",
+        "comic"
+      ],
+      "properties": {
+        "hud": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "background",
+            "backgroundAlt",
+            "ink",
+            "dim",
+            "line",
+            "hot",
+            "sun",
+            "series"
+          ],
+          "properties": {
+            "background": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Page background"
+            },
+            "backgroundAlt": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Second background stop"
+            },
+            "ink": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Main text colour"
+            },
+            "dim": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Secondary text colour"
+            },
+            "line": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Panel borders and grid lines"
+            },
+            "hot": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Selection / lock-on accent"
+            },
+            "sun": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Secondary accent (tags, burst)"
+            },
+            "series": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "minItems": 1,
+              "maxItems": 4,
+              "description": "One colour per series in model.json, in order"
+            }
+          }
+        },
+        "comic": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "background",
+            "backgroundAlt",
+            "ink",
+            "dim",
+            "line",
+            "hot",
+            "sun",
+            "series"
+          ],
+          "properties": {
+            "background": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Page background"
+            },
+            "backgroundAlt": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Second background stop"
+            },
+            "ink": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Main text colour"
+            },
+            "dim": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Secondary text colour"
+            },
+            "line": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Panel borders and grid lines"
+            },
+            "hot": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Selection / lock-on accent"
+            },
+            "sun": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "description": "Secondary accent (tags, burst)"
+            },
+            "series": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "minItems": 1,
+              "maxItems": 4,
+              "description": "One colour per series in model.json, in order"
+            }
+          }
+        }
+      }
+    },
+    "copy": {
+      "type": "object",
+      "properties": {
+        "lockOn": {
+          "type": "string"
+        },
+        "hint": {
+          "type": "string"
+        },
+        "lookLabels": {
+          "type": "object",
+          "properties": {
+            "hud": {
+              "type": "string"
+            },
+            "comic": {
+              "type": "string"
+            }
+          }
+        },
+        "boot": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "footer": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Power BI embed module",
+  "type": "object",
+  "required": [
+    "clientId",
+    "tenantId"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "clientId": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F-]{36}$",
+      "description": "Entra app (SPA) client ID"
+    },
+    "tenantId": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F-]{36}$"
+    },
+    "syncFilters": {
+      "type": "boolean",
+      "description": "Push the app's filters into embedded reports, and turn clicks in a report into app filters"
+    },
+    "filterTargets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "table",
+          "column"
+        ],
+        "properties": {
+          "table": {
+            "type": "string"
+          },
+          "column": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "App filter id (time, geo, category or an extraFilters id) \u2192 the report's table and column. Reports without that column ignore it."
+    }
+  }
+}

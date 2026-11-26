@@ -1,0 +1,24 @@
+{
+  "$schema": "./schema/powerbi.schema.json",
+  "clientId": "00000000-0000-0000-0000-000000000000",
+  "tenantId": "00000000-0000-0000-0000-000000000000",
+  "syncFilters": true,
+  "filterTargets": {
+    "time": {
+      "table": "DimDate",
+      "column": "CalendarYear"
+    },
+    "geo": {
+      "table": "DimSalesTerritory",
+      "column": "SalesTerritoryCountry"
+    },
+    "category": {
+      "table": "DimProduct",
+      "column": "Color"
+    },
+    "region": {
+      "table": "DimSalesTerritory",
+      "column": "SalesTerritoryRegion"
+    }
+  }
+}

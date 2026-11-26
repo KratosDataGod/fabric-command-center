@@ -1,0 +1,176 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Fabric Command Center profile",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "sections"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "icon": {
+      "enum": [
+        "chart",
+        "shield",
+        "cog",
+        "users",
+        "briefcase",
+        "globe",
+        "gauge",
+        "dollar",
+        "book",
+        "sparkles",
+        "truck",
+        "heart"
+      ]
+    },
+    "order": {
+      "type": "number"
+    },
+    "description": {
+      "type": "string"
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "title",
+          "items"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "id",
+                    "title",
+                    "model"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9-]*$"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string",
+                      "description": "Where it comes from, shown on the tile"
+                    },
+                    "type": {
+                      "const": "dashboard"
+                    },
+                    "model": {
+                      "type": "string",
+                      "description": "File name in customize/models/ without .json"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "id",
+                    "title",
+                    "workspaceId",
+                    "reportId"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9-]*$"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string",
+                      "description": "Where it comes from, shown on the tile"
+                    },
+                    "type": {
+                      "const": "report"
+                    },
+                    "workspaceId": {
+                      "type": "string",
+                      "pattern": "^$|^[0-9a-fA-F-]{36}$"
+                    },
+                    "reportId": {
+                      "type": "string",
+                      "pattern": "^$|^[0-9a-fA-F-]{36}$"
+                    },
+                    "pageName": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "id",
+                    "title",
+                    "url"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9-]*$"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string",
+                      "description": "Where it comes from, shown on the tile"
+                    },
+                    "type": {
+                      "const": "link"
+                    },
+                    "url": {
+                      "type": "string",
+                      "pattern": "^https://"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

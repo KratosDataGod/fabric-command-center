@@ -1,0 +1,69 @@
+{
+  "$schema": "../../schema/brand.schema.json",
+  "name": "Data God",
+  "titleAccent": "// Sales Intel",
+  "tagline": "KratosBI \u00b7 Live from Microsoft Fabric",
+  "logo": "logo.svg",
+  "mark": "mark.svg",
+  "favicon": "mark.svg",
+  "defaultLook": "hud",
+  "allowLookToggle": true,
+  "fonts": {
+    "heading": "Chakra Petch",
+    "mono": "JetBrains Mono",
+    "comic": "Bangers",
+    "body": "IBM Plex Sans",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Bangers&family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+  },
+  "colors": {
+    "hud": {
+      "background": "#04050c",
+      "backgroundAlt": "#070a18",
+      "ink": "#e8f6ff",
+      "dim": "#7f98b8",
+      "line": "#40e0ff",
+      "hot": "#ff3d9a",
+      "sun": "#ffd23f",
+      "series": [
+        "#a07bff",
+        "#2ee6ff",
+        "#3dff9a",
+        "#ffb347"
+      ]
+    },
+    "comic": {
+      "background": "#f7efdc",
+      "backgroundAlt": "#efe3c6",
+      "ink": "#14121c",
+      "dim": "#5b5566",
+      "line": "#14121c",
+      "hot": "#ff2e88",
+      "sun": "#ffd23f",
+      "series": [
+        "#6d3cff",
+        "#00a6d6",
+        "#0f9d58",
+        "#e8710a"
+      ]
+    }
+  },
+  "copy": {
+    "lockOn": "LOCKED ON!",
+    "hint": "Click a country, year or category to lock on",
+    "lookLabels": {
+      "hud": "HUD mode",
+      "comic": "Comic mode"
+    },
+    "boot": [
+      "DATA GOD // SALES INTEL",
+      "ESTABLISHING FABRIC LINK ............ OK",
+      "SEMANTIC MODEL: DATA GOD MODEL ...... OK",
+      "CALIBRATING HOLO-GLOBE .............. OK",
+      "ALL SYSTEMS NOMINAL. BEST DAY EVER."
+    ]
+  },
+  "footer": {
+    "text": "KratosBI \u00b7 Built with Fabric Command Center",
+    "url": "https://github.com/KratosDataGod/fabric-command-center"
+  }
+}
