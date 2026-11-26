@@ -29,7 +29,7 @@ customize/*.json ──► config loader + validation ──► app shell (profi
 | `hud/` | The visuals and the HUD and comic styles |
 | `features/` | Filters pane, drill-through, saved views, workbench, share actions, and the optional embed module |
 | `geo/` | Country name to map position |
-| `demo/` | Synthetic data for `npm run demo`; never part of a Fabric build |
+| `demo/` | Synthetic data and the Brand Studio for `npm run demo`; never part of a Fabric build |
 
 ## Decisions worth knowing
 
@@ -40,6 +40,13 @@ customize/*.json ──► config loader + validation ──► app shell (profi
 - **Optional modules load late.** The embed module, `powerbi-client` and MSAL load only when an embedded report opens; the PNG exporter loads on first export.
 - **No secrets in the repository.** Tenant IDs and model IDs live in git-ignored files.
 
+## Scripts
+
+`scripts/` holds the doctor, setup and brand commands. They run on plain Node and reuse the app's own TypeScript (validation, DAX builder, model proposal) through Node's type stripping, so the command line and the app never disagree.
+
 ## Quality gates
 
-`npm run check` runs the TypeScript typecheck, ESLint, the Vitest suites and the doctor. CI runs the same on every pull request and builds the demo bundle.
+- `npm run check`: TypeScript typecheck, ESLint, the Vitest unit suites and the doctor.
+- `npm run test:e2e`: Playwright tests on the demo build at desktop, laptop and phone sizes, with axe-core WCAG 2.1 AA checks in both looks.
+
+CI runs both on every pull request.

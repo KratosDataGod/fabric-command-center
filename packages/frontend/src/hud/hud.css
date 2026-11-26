@@ -611,3 +611,4 @@
 .hud-studio-ratio.is-low { color: var(--hud-hot); font-weight: 700; }
 .hud-studio select.hud-input { appearance: auto; }
 .hud.hud--bare { min-height: 0; background: none; position: static; }
+:root[data-presenting] .fcc-studio-open { display: none; }

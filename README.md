@@ -12,6 +12,10 @@ Everything a company changes lives in one folder, [`customize/`](customize). No 
 | --- | --- | --- |
 | ![Admin profile with Fabric admin reports and FUAM](docs/images/launchpad-admin.jpg) | ![The same dashboard in the light comic look](docs/images/hud-comic.jpg) | ![Viewer-built visuals in the workbench](docs/images/workbench.jpg) |
 
+| Search everything (Ctrl+K) | Presentation mode | Brand Studio |
+| --- | --- | --- |
+| ![Command palette searching for FUAM across profiles](docs/images/search.jpg) | ![Presentation mode touring the top countries](docs/images/presentation.jpg) | ![Brand Studio restyling the live app](docs/images/brand-studio.jpg) |
+
 Screenshots use the built-in demo mode, which runs on synthetic data.
 
 ## What you get
@@ -20,14 +24,19 @@ Screenshots use the built-in demo mode, which runs on synthetic data.
 - **Live dashboards on your semantic model.** Every query is generated from a short JSON description of your model, so moving to a new company or model is a config change.
 - **Cross-filtering everywhere.** Click any country, year or category to lock on. Ctrl or Shift + click adds to the selection. Each visual highlights its own selection instead of collapsing.
 - **Filters pane and drill-through.** Multi-select slicers for every dimension, and a sortable detail table behind the current selection with CSV export.
+- **Search everything with Ctrl+K.** Jump to any dashboard, report, link, saved view or profile from anywhere. Pin favourite tiles to the top of every launchpad; recently opened tiles follow you.
 - **Saved and shareable views.** Name a filter state, reopen it later, or share it as a code. Where the Fabric portal supports deep links, the address bar becomes a shareable link and Back and Forward work.
 - **Visual workbench.** Viewers build their own bar, column, line and table visuals from the model's measures and dimensions. They cross-filter like everything else.
 - **Insight to action.** Every panel can export CSV or PNG, copy a summary, or share to Teams or email.
+- **Period over period.** Readouts show the change against the previous year (or the period before the one you picked), and the insight feed calls it out per series.
+- **Presentation mode.** One click runs a full-screen tour of the overview, top markets, top categories and latest period, for wall screens and demos.
 - **Plain-English insights**, computed only from the numbers on screen.
 - **Your brand.** Name, logos, colours, fonts and copy for both looks (dark HUD and light comic) from one file, plus switchable brand packs.
 - **Optional embedded Power BI reports** with the app's filters applied (experimental, off by default).
 - **A doctor** that checks your configuration and can run every generated query against your model before you deploy.
-- **A demo mode** that runs the whole app on synthetic data with no Fabric account, for evaluation and design work.
+- **A demo mode** that runs the whole app on synthetic data with no Fabric account, plus a **Brand Studio** that restyles the live app as you pick colours and fonts and downloads the brand file.
+- **`npm run setup`**: a guided setup that creates the brand, connects the model and proposes the model mapping from the model's own metadata.
+- **Accessible and tested.** Keyboard operable throughout, WCAG 2.1 AA checks in both looks, and end-to-end browser tests on every change.
 
 The feature set follows the scenarios in the [Power BI Embedded playground](https://playground.powerbi.com/) (capture report views, personalize visuals, insights to action, customize colours and mode), rebuilt as a Fabric App on your own data.
 
@@ -42,7 +51,14 @@ npm install
 npm run demo          # try it on synthetic data at http://localhost:5173
 ```
 
-Then connect it to your tenant:
+Then connect it to your tenant. The quickest way is the guided setup:
+
+```bash
+npx rayfin login
+npm run setup         # brand, model link, automatic model mapping, then a full check
+```
+
+Or step by step:
 
 1. **Point it at your model.** Copy `rayfin/.env.example` to `rayfin/.env` and fill in the semantic model's workspace ID and item ID. Edit [`customize/models/sales.json`](customize/models/sales.json) so its measures and columns match your model (`npm run doctor -- --discover` lists them). See [Connect your model](docs/connect-your-model.md).
 2. **Brand it.** Edit [`customize/brand/brand.json`](customize/brand/brand.json) and drop your logos into `customize/brand/`. See [Branding](docs/customize-branding.md).
@@ -69,11 +85,13 @@ If something in `customize/` is wrong, the app shows the exact problems instead 
 
 | Command | What it does |
 | --- | --- |
-| `npm run demo` | Run the app locally on synthetic data, no sign-in |
+| `npm run setup` | Guided setup: brand pack, model IDs, automatic model mapping, then the doctor |
+| `npm run demo` | Run the app locally on synthetic data, no sign-in. Open the Brand Studio from the button at the bottom left |
 | `npm run dev` | Run the app locally against your real model (needs `npx rayfin login`) |
 | `npm run doctor` | Check `customize/`, connectors and brand files. Add `-- --live` to test every query, or `-- --discover` to list your model's tables and measures |
 | `npm run brand -- <pack>` | Make a brand pack from `customize/brands/` the active brand |
 | `npm run check` | Typecheck, lint, test and doctor in one go |
+| `npm run test:e2e` | End-to-end and accessibility tests in a real browser, on the demo build |
 | `npx rayfin up --workspace "<name>"` | Build and deploy to a Fabric workspace |
 
 ## Documentation

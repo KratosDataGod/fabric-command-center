@@ -10,7 +10,8 @@ This repository is Fabric Command Center, a config-driven Fabric App that many c
 - **No tenant data in the repository.** Workspace, item, tenant and client IDs belong in `rayfin/.env` or `customize/powerbi.local.json`, both git-ignored. Use AdventureWorks or synthetic data in examples, tests and screenshots.
 - **Demo mode stays labelled.** `npm run demo` runs on synthetic data with a visible banner. Never let synthetic data reach a Fabric build.
 - **Profiles are not security.** Do not describe them as access control.
-- **Gates:** `npm run check` (typecheck, lint, test, doctor) and `npm run -w @rayfin-app/frontend build:demo` must pass before a pull request.
+- **Gates:** `npm run check` (typecheck, lint, test, doctor) and `npm run test:e2e` (Playwright and axe on the demo build) must pass before a pull request.
+- **Accessible by default:** new controls need a name containing their visible text, keyboard operation, and WCAG AA contrast in both looks; the e2e suite enforces it.
 
 ## Rayfin template guidance
 

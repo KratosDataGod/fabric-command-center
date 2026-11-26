@@ -4,6 +4,26 @@ All notable changes to this project are listed here. The format follows [Keep a 
 
 ## Unreleased
 
+### Added
+
+- Command palette (Ctrl/Cmd+K or /) across all profiles, saved views and actions; pinned tiles and recently opened tiles on every launchpad.
+- Period-over-period comparison on readouts and in the insight feed (`features.periodCompare`).
+- Presentation mode: a timed, full-screen tour for wall screens and demos (`features.presentation`).
+- `npm run setup`: guided brand, model and mapping setup that proposes `customize/models/*.json` from the model's metadata.
+- Brand Studio in `npm run demo`: live brand editing with contrast checks and brand.json download.
+- End-to-end and accessibility tests (Playwright and axe-core) in CI; `npm run test:e2e`.
+- The doctor warns about brand colours below WCAG AA contrast.
+
+### Changed
+
+- Default and KratosBI comic palettes darkened to meet WCAG AA as text.
+- Dashboards load on first open, so the launchpad appears sooner.
+
+### Fixed
+
+- Drawers no longer pull keyboard focus back on every filter change; focus stays inside drawers and search.
+- Accessible names that hid visible text; interactive marks inside images.
+
 ## 1.0.0 - 2026-11-26
 
 First public release.

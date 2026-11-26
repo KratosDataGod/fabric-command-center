@@ -85,6 +85,10 @@ For `category`, set `"colorNames": true` when the members are colour names, and 
 - `detail.columns` are the rows of the drill-through table (up to `maxRows`, at most 5,000).
 - `extraMeasures` are offered in the visual workbench next to the series.
 
+## Let setup propose it
+
+`npm run setup` reads the model's visible columns and measures and writes a first version of this file. It prefers a calendar year column, a country column, a product category, and measures named like sales, revenue or amount (skipping year-to-date and percentage measures). If the model has no measures, it sums fact columns such as `SalesAmount`. It prints every choice so you can see why, then you edit labels and anything it guessed wrong.
+
 ## Find the right names
 
 ```bash

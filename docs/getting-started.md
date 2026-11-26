@@ -27,7 +27,17 @@ npx rayfin login
 
 On Windows, the sign-in can print an error after the browser says you are signed in. Run `npx rayfin login` again: if it says you are already signed in, you are.
 
-## 3. Point the app at your semantic model
+## 3. Run the guided setup (recommended)
+
+```bash
+npm run setup
+```
+
+It asks for your company name and two brand colours, and for the semantic model's address (copy it from the browser while the model is open in Fabric). It then reads the model's columns and measures and proposes `customize/models/sales.json` for you: the year column, the country column, a category, and up to two money measures to compare. Finally it runs the doctor against the live model. You can skip any step, and re-run it at any time.
+
+The steps below do the same by hand.
+
+## 3a. Point the app at your semantic model by hand
 
 ```bash
 cp rayfin/.env.example rayfin/.env      # Windows: copy rayfin\.env.example rayfin\.env

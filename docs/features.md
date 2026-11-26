@@ -33,8 +33,16 @@ Every panel cross-filters the others. Click to lock onto a value, Ctrl or Shift 
 | `visualBuilder` | Viewers pick a measure, a dimension, a chart type and a top N. Visuals are saved in their browser |
 | `bootSequence` | The short start-up animation |
 | `lockBurst` | The comic burst when something is selected |
+| `periodCompare` | Readouts show the change against the previous period: the period before the one selected, or with nothing selected, the latest period against the one before it. Computed from the trend already on screen, so it costs no extra query |
+| `presentation` | The Present button: a full-screen tour (overview, top 5 markets, top 3 categories, latest period, every 7 seconds). Space pauses, → skips, Esc stops. Full screen is used where the host allows it |
 
 All motion is skipped for people who turn on reduced motion in their system settings.
+
+## Always on
+
+- **Search (Ctrl+K, Cmd+K or /)** finds any tile in any profile, saved views, profiles and actions. Arrow keys and Enter work throughout.
+- **Pins and recents.** The star on a tile pins it to the top of every launchpad; the last tiles opened appear under Recently opened.
+- **Keyboard and screen readers.** Every mark that can be clicked can be focused and pressed with Enter or Space; drawers and search keep focus inside until closed.
 
 ## Share actions (`actions`)
 
@@ -52,4 +60,4 @@ Every panel has a ⋯ menu. These keys control what it offers:
 
 ## Where things are stored
 
-Saved views, workbench visuals, the last profile and the chosen look are stored in each viewer's browser. They do not follow someone to another browser, and clearing site data removes them. Share codes are the way to move a view between people.
+Saved views, workbench visuals, pins, recently opened tiles, the last profile and the chosen look are stored in each viewer's browser. They do not follow someone to another browser, and clearing site data removes them. Share codes are the way to move a view between people.

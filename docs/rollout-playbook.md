@@ -34,6 +34,12 @@ npm run doctor -- --live
 npx rayfin up --workspace "<unit workspace>"
 ```
 
+## The fastest path for a new company
+
+1. `npm run demo`, open the Brand Studio with the client, and download their `brand.json`.
+2. `npx rayfin login`, then `npm run setup` with their name and model address.
+3. Fill in the Admin profile's report IDs, then `npm run doctor -- --live` and deploy.
+
 ## A first-week checklist for each company
 
 - [ ] A Fabric workspace for the app, on a capacity, with Fabric Apps (preview) enabled.

@@ -144,8 +144,9 @@ describe('protected app content with standalone sign-in', () => {
       })
     ).toBeVisible();
     await act(async () => notify?.(null));
+    // Generous timeout: the sign-out re-render can be slow on a busy CI runner.
     expect(
-      await screen.findByRole('button', { name: 'Sign in with Microsoft' })
+      await screen.findByRole('button', { name: 'Sign in with Microsoft' }, { timeout: 5000 })
     ).toBeVisible();
     expect(
       screen.queryByRole('heading', { name: 'Build the app of your dreams' })

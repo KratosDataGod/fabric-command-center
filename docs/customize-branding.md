@@ -60,6 +60,14 @@ Two packs ship with the project:
 - `default`: the neutral "Command Center" brand.
 - `kratosbi`: the "Data God // Sales Intel" look the project started as.
 
-## Try it without a model
+## Brand Studio
 
-`npm run demo` runs the app on synthetic data and reloads as you save `brand.json`, so you can design a brand before connecting anything.
+`npm run demo` includes a Brand Studio (the button at the bottom left, or open http://localhost:5173/?studio). Pick colours for both looks and the fonts, and the running app behind the panel restyles as you go. Each text colour shows its contrast ratio, and the panel lists anything below WCAG AA. When it looks right, **Download brand.json** and save it as `customize/brand/brand.json` (or into a new pack in `customize/brands/<name>/`), next to your logos.
+
+## Create a brand from the command line
+
+`npm run setup` asks for a name and two brand colours and creates a pack in `customize/brands/<name>/`. It adjusts each colour separately for the dark and light looks so it stays readable as text, then makes the pack active.
+
+## Readability checks
+
+`npm run doctor` warns when `ink`, `dim`, `hot` or a series colour has a contrast ratio below 4.5:1 against either background colour. These are warnings: the app still runs, but some people will struggle to read it.
