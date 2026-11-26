@@ -51,3 +51,8 @@ rayfin.config.json
 # Fabric Command Center: per-company secrets and IDs stay local
 !rayfin/.env.example
 customize/powerbi.local.json
+
+# Fabric Command Center
+packages/frontend/dist-demo/
+playwright-report/
+test-results/

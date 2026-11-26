@@ -62,7 +62,7 @@ export function ColorBubbles({ rows }: { rows: SplitRow[] }) {
   return (
     <div ref={ref} className="absolute inset-0">
       {width > 0 ? (
-        <svg width={width} height={height} role="img" aria-label={`${model.dimensions.category?.label ?? 'Category'} bubbles`}>
+        <svg width={width} height={height} role="group" aria-label={`${model.dimensions.category?.label ?? 'Category'} bubbles`}>
           <defs>
             <pattern id="cb-dots" width="6" height="6" patternUnits="userSpaceOnUse">
               <circle cx="3" cy="3" r="1.3" fill="#000" fillOpacity="0.28" />

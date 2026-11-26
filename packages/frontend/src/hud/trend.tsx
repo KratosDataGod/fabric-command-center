@@ -60,7 +60,7 @@ export function Trend({ rows }: { rows: SplitRow[] }) {
   return (
     <div ref={ref} className="absolute inset-0">
       {width > 0 && rows.length > 0 ? (
-        <svg width={width} height={height} role="img" aria-label="Trend by period">
+        <svg width={width} height={height} role="group" aria-label="Trend by period">
           <defs>
             {series.map((s) => (
               <linearGradient key={s.key} id={`yl-fill-${s.key}`} x1="0" x2="0" y1="0" y2="1">

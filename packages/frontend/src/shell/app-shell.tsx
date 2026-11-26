@@ -47,7 +47,7 @@ function ProfilePicker({ current, onPick }: { current: string; onPick: (id: stri
   if (profiles.length < 2) return null;
   return (
     <div className="relative" ref={ref}>
-      <button type="button" className="hud-btn" aria-haspopup="menu" aria-expanded={open} aria-label={`Switch profile, current ${profile?.name ?? "none"}`} onClick={() => setOpen((o) => !o)}>
+      <button type="button" className="hud-btn" aria-haspopup="menu" aria-expanded={open} aria-label={`${profile?.name ?? "Profile"}: switch profile`} onClick={() => setOpen((o) => !o)}>
         <ProfileGlyph icon={profile?.icon} /> {profile?.name ?? 'Profile'} <ChevronDown className="icon-size-100" aria-hidden />
       </button>
       {open ? (
@@ -135,7 +135,7 @@ export function AppShell() {
                   {brand.name} {brand.titleAccent ? <span>{brand.titleAccent}</span> : null}
                 </h1>
                 <nav className="hud-crumbs" aria-label="Breadcrumb">
-                  <button type="button" className="hud-crumb" onClick={() => profile && go({ profile: profile.id, screen: 'launchpad' })} aria-label="Home">
+                  <button type="button" className="hud-crumb" onClick={() => profile && go({ profile: profile.id, screen: 'launchpad' })} title="Back to the launchpad">
                     <Home className="icon-size-100" aria-hidden /> {profile?.name ?? 'Home'}
                   </button>
                   {item && route.screen !== 'launchpad' ? (
@@ -152,7 +152,7 @@ export function AppShell() {
               <ProfilePicker current={route.profile} onPick={(id) => go({ profile: id, screen: 'launchpad' })} />
               <Clock />
               {brand.allowLookToggle !== false ? (
-                <button type="button" className="hud-btn" onClick={toggleLook} aria-label={isDark ? 'Switch to the light look' : 'Switch to the dark look'}>
+                <button type="button" className="hud-btn" onClick={toggleLook} title={isDark ? 'Switch to the light look' : 'Switch to the dark look'}>
                   {isDark ? <Zap className="icon-size-200" aria-hidden /> : <Layers className="icon-size-200" aria-hidden />}
                   {isDark ? (brand.copy?.lookLabels?.comic ?? 'Comic mode') : (brand.copy?.lookLabels?.hud ?? 'HUD mode')}
                 </button>

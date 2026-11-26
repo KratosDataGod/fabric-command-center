@@ -54,6 +54,9 @@ if (problems.length) problems.forEach(bad);
 else ok(`customize/: brand, ${Object.keys(models).length} model(s), ${profiles.length} profile(s) and features are valid`);
 if (problems.length) process.exitCode = 1;
 
+// Readability
+for (const w of brand ? v.brandContrastWarnings(brand) : []) warn(w);
+
 // Brand files
 for (const key of ['logo', 'mark', 'favicon']) {
   const f = brand?.[key];

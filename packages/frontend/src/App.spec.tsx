@@ -18,7 +18,7 @@ describe('App', () => {
     render(<App />);
     const other = profiles[1];
     if (!other) return;
-    fireEvent.click(screen.getByRole('button', { name: /Switch profile/ }));
+    fireEvent.click(screen.getByRole('button', { name: /switch profile/i }));
     fireEvent.click(screen.getByRole('menuitemradio', { name: new RegExp(other.name) }));
     expect(screen.getByRole('heading', { name: other.name })).toBeInTheDocument();
   });
@@ -28,7 +28,7 @@ describe('App', () => {
     if (!withSetup) return;
     render(<App />);
     if (withSetup.id !== profiles[0]!.id) {
-      fireEvent.click(screen.getByRole('button', { name: /Switch profile/ }));
+      fireEvent.click(screen.getByRole('button', { name: /switch profile/i }));
       fireEvent.click(screen.getByRole('menuitemradio', { name: new RegExp(withSetup.name) }));
     }
     fireEvent.click(screen.getAllByText('Setup needed')[0]!.closest('button')!);

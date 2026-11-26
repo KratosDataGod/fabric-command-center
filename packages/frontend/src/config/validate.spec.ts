@@ -58,3 +58,15 @@ describe('validateProfiles', () => {
     expect(out).toContain('GUIDs');
   });
 });
+
+describe('brandContrastWarnings', () => {
+  it('passes the shipped brands and flags a pale series colour', async () => {
+    const { brandContrastWarnings, contrastRatio } = await import('./validate');
+    const shipped = (await import('@customize/brand/brand.json')).default as unknown as Parameters<typeof brandContrastWarnings>[0];
+    expect(brandContrastWarnings(shipped)).toEqual([]);
+    expect(contrastRatio('#000000', '#ffffff')).toBeCloseTo(21, 0);
+    const pale = structuredClone(shipped);
+    pale.colors.comic.series = ['#ffff00'];
+    expect(brandContrastWarnings(pale)[0]).toMatch(/colors\.comic\.series\[0\]/);
+  });
+});

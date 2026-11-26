@@ -134,7 +134,7 @@ export function HoloGlobe({ rows }: { rows: SplitRow[] }) {
       }}
     >
       {width > 0 ? (
-        <svg width={width} height={height} role="img" aria-label={`Globe of ${model.dimensions.geo?.label ?? 'country'} totals`} style={{ cursor: isDragging ? 'grabbing' : 'grab' }}>
+        <svg width={width} height={height} role="group" aria-label={`Globe of ${model.dimensions.geo?.label ?? 'country'} totals`} style={{ cursor: isDragging ? 'grabbing' : 'grab' }}>
           <defs>
             <radialGradient id="globe-fill" cx="40%" cy="35%" r="75%">
               <stop offset="0%" stopColor="var(--hud-s1)" stopOpacity="0.22" />

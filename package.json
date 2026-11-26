@@ -36,11 +36,14 @@
     "schema:refresh": "fabric-app-semantic-model-tools query-schema --refresh",
     "doctor": "node scripts/fcc-doctor.mjs",
     "brand": "node scripts/fcc-brand.mjs",
-    "check": "npm run typecheck && npm run lint && npm test && npm run doctor"
+    "check": "npm run typecheck && npm run lint && npm test && npm run doctor",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@microsoft/rayfin-cli": "^2.0.1",
     "@microsoft/rayfin-guide": "^2.0.1",
+    "@playwright/test": "1.63.0",
     "typescript": "~6.0.2"
   },
   "rayfinScriptBases": {

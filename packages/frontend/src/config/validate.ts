@@ -70,6 +70,42 @@ export function validateBrand(b: BrandConfig): string[] {
   return out;
 }
 
+function luminance(hex: string): number {
+  const h = hex.replace('#', '');
+  const full = h.length === 3 ? [...h].map((c) => c + c).join('') : h;
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(full.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
+}
+
+/** WCAG contrast ratio between two #rrggbb colours (1 to 21). */
+export function contrastRatio(a: string, b: string): number {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi! + 0.05) / (lo! + 0.05);
+}
+
+/**
+ * Readability warnings for a brand (not errors: the app still runs).
+ * Text colours and series colours (also used for small labels) need 4.5:1
+ * against both backgrounds; "hot" marks selections and needs 3:1.
+ */
+export function brandContrastWarnings(b: BrandConfig): string[] {
+  const out: string[] = [];
+  for (const look of ['hud', 'comic'] as const) {
+    const p = b.colors?.[look];
+    if (!p || !HEX.test(p.background) || !HEX.test(p.backgroundAlt)) continue;
+    const check = (name: string, color: string, min: number) => {
+      if (!HEX.test(color)) return;
+      const ratio = Math.min(contrastRatio(color, p.background), contrastRatio(color, p.backgroundAlt));
+      if (ratio < min) out.push(`brand.json: colors.${look}.${name} ${color} has contrast ${ratio.toFixed(2)}:1 on the background; aim for at least ${min}:1.`);
+    };
+    check('ink', p.ink, 4.5);
+    check('dim', p.dim, 4.5);
+    check('hot', p.hot, 3);
+    (p.series ?? []).forEach((c, i) => check(`series[${i}]`, c, 4.5));
+  }
+  return out;
+}
+
 export function validateFeatures(f: FeaturesConfig): string[] {
   const out: string[] = [];
   if (f.shareUrl && !/^https:\/\//.test(f.shareUrl)) out.push('features.json: "shareUrl" must start with https://.');

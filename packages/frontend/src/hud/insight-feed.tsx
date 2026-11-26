@@ -34,7 +34,7 @@ export function InsightFeed({ lines }: { lines: string[] }) {
   return (
     <div className="hud-mono flex h-full flex-col justify-end gap-200" style={{ fontSize: 13, lineHeight: 1.45 }} aria-live="polite">
       {history.map((l, i) => (
-        <p key={`${index}-${i}`} style={{ color: 'var(--hud-dim)', opacity: 0.45 + i * 0.2 }}>&gt; {l}</p>
+        <p key={`${index}-${i}`} style={{ color: 'var(--hud-dim)', opacity: Math.min(1, 0.85 + i * 0.05) }}>&gt; {l}</p>
       ))}
       <p style={{ color: 'var(--hud-ink)' }}>
         <span style={{ color: 'var(--hud-s1)' }}>&gt; </span>
